@@ -94,7 +94,8 @@ def main():
     INPUTS_DIR = os.getenv('VH_INPUTS_DIR', '../data')
     OUTPUTS_DIR = os.getenv('VH_OUTPUTS_DIR', './models')
 
-    X_train, X_val, y_train, y_val = _load_data(f'{INPUTS_DIR}/{data}')
+    X_train, X_val, y_train, y_val = _load_data(
+        'datum://01701b05-ca13-2899-3545-a1be8fc9fd55')
 
     classifiers = {
         "polynomialSVM": svm.SVC(kernel='poly'),
