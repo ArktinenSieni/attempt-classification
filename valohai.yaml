@@ -1,6 +1,5 @@
 - step:
     name: attempt-classification
-    image: continuumio/miniconda:4.7.10
+    image: huanjason/scikit-learn:latest
     command:
-      - conda install pandas scikit-learn
-      - conda run python train.py
+      - python train.py
