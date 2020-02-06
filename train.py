@@ -98,8 +98,9 @@ def main():
     X_train, X_val, y_train, y_val = _load_data(data_path)
 
     classifiers = {
+        "linear SVM": svm.SVC(kernel='linear', gamma='scale'),
         "polynomialSVM": svm.SVC(kernel='poly', gamma='scale'),
-        "radialSVM": svm.SVC(kernel='rbf'),
+        "radialSVM": svm.SVC(kernel='rbf', gamma='scale'),
         "sigmoidSVM": svm.SVC(kernel='sigmoid'),
         "GaussianNB": GaussianNB(),
         "MultinomialNB": MultinomialNB(),
