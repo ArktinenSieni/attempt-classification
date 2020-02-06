@@ -96,7 +96,7 @@ def main():
     OUTPUTS_DIR = os.getenv('VH_OUTPUTS_DIR', './models')
     data_name = 'sql_trainer_filtered_attempts.csv'
     data_path = os.path.join(INPUTS_DIR,
-                             # 'filtered-data',
+                             'filtered-data',
                              data_name)
 
     X_train, X_val, y_train, y_val = _load_data(data_path)
