@@ -4,5 +4,5 @@
     command:
       - python train.py
     inputs:
-      - name: sql_trainer_filtered_attempts.csv
+      - name: filtered-data
         default: datum://01701b05-ca13-2899-3545-a1be8fc9fd55
