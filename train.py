@@ -13,7 +13,8 @@ from joblib import dump, load
 
 
 def _load_data(data_url):
-    data = pd.read_csv(data_url, header=0, encoding='utf8',
+    file_name = '/sql_trainer_filtered_attempts.csv'
+    data = pd.read_csv(data_url + file_name, header=0, encoding='utf8',
                        engine='python')[:50]
 
     data_selected_columns = [
@@ -90,8 +91,6 @@ def _validate_in_location(path, X, y):
 
 
 def main():
-    data = 'sql_trainer_filtered_attempts.csv'
-
     INPUTS_DIR = os.getenv('VH_INPUTS_DIR', '../data')
     OUTPUTS_DIR = os.getenv('VH_OUTPUTS_DIR', './models')
 
