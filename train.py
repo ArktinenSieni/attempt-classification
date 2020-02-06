@@ -13,8 +13,7 @@ from joblib import dump, load
 
 
 def _load_data(data_url):
-    data = pd.read_csv(data_url, header=0, encoding='utf8',
-                       engine='python')
+    data = pd.read_csv(data_url, header=0)
 
     data_selected_columns = [
         # 'user_id', # Don't want to fit on basis of users
@@ -55,7 +54,7 @@ def _load_data(data_url):
     return X_train, X_validation, y_train, y_validation
 
 
-def _perform_cross_validation(clf, X, y, name):
+def _perform_cross_validation_and_save(clf, X, y, name, output_path):
     print(f'--- cross validating {name}             ---')
     result = cross_validate(clf, X, y, n_jobs=5,
                             return_estimator=True, cv=5)
@@ -63,6 +62,9 @@ def _perform_cross_validation(clf, X, y, name):
     print(f"{name} fit times: {result['fit_time']}")
     print(f"{name} test scores: {result['score_time']}")
     print(f'--- cross validation for {name} ended   ---')
+
+    for i, estimator in enumerate(result['estimator']):
+        _upload_classifier(estimator, f'{output_path}/{name}_{i}')
 
     return result['estimator']
 
@@ -93,7 +95,9 @@ def main():
     INPUTS_DIR = os.getenv('VH_INPUTS_DIR', '../data')
     OUTPUTS_DIR = os.getenv('VH_OUTPUTS_DIR', './models')
     data_name = 'sql_trainer_filtered_attempts.csv'
-    data_path = os.path.join(INPUTS_DIR, 'filtered-data', data_name)
+    data_path = os.path.join(INPUTS_DIR,
+                             # 'filtered-data',
+                             data_name)
 
     X_train, X_val, y_train, y_val = _load_data(data_path)
 
@@ -113,22 +117,11 @@ def main():
 
     clf_estimators = dict(map(
         lambda name_and_clf: (
-            name_and_clf[0], _perform_cross_validation(
-                name_and_clf[1], X_train, y_train, name_and_clf[0])
+            name_and_clf[0], _perform_cross_validation_and_save(
+                name_and_clf[1], X_train, y_train, name_and_clf[0], OUTPUTS_DIR)
         ),
         classifiers.items()
     ))
-
-    for clf_name in clf_estimators:
-        estimators = clf_estimators[clf_name]
-        for i, estimator in enumerate(estimators):
-            clf_i_name = f'{clf_name}_{i}'
-
-            _upload_classifier(
-                estimator, f'{OUTPUTS_DIR}/{clf_i_name}')
-
-            print(
-                f'{clf_i_name} score: {_validate_classifier(estimator, X_val, y_val)}')
 
 
 if __name__ == "__main__":
