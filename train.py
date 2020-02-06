@@ -14,7 +14,7 @@ from joblib import dump, load
 
 def _load_data(data_url):
     data = pd.read_csv(data_url, header=0, encoding='utf8',
-                       engine='python')[:50]
+                       engine='python')
 
     data_selected_columns = [
         # 'user_id', # Don't want to fit on basis of users
@@ -98,7 +98,7 @@ def main():
     X_train, X_val, y_train, y_val = _load_data(data_path)
 
     classifiers = {
-        "polynomialSVM": svm.SVC(kernel='poly'),
+        "polynomialSVM": svm.SVC(kernel='poly', gamma='scale'),
         "radialSVM": svm.SVC(kernel='rbf'),
         "sigmoidSVM": svm.SVC(kernel='sigmoid'),
         "GaussianNB": GaussianNB(),
