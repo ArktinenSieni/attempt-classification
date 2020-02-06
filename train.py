@@ -13,7 +13,7 @@ from joblib import dump, load
 
 
 def _load_data(data_url):
-    data = pd.read_csv(data_url, header=0)[:10]
+    data = pd.read_csv(data_url, header=0)[:50]
 
     data_selected_columns = [
         # 'user_id', # Don't want to fit on basis of users
@@ -57,10 +57,10 @@ def _load_data(data_url):
 def _perform_cross_validation(clf, X, y, name):
     print(f'--- cross validating {name}             ---')
     result = cross_validate(clf, X, y, n_jobs=5,
-                            return_estimator=True)
+                            return_estimator=True, cv=5)
 
-    print(result['fit_time'])
-    print(result['score_time'])
+    print(f"{name} fit times: {result['fit_time']}")
+    print(f"{name} test scores: {result['score_time']}")
     print(f'--- cross validation for {name} ended   ---')
 
     return result['estimator']
