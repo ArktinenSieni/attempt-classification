@@ -3,3 +3,4 @@
     image: huanjason/scikit-learn:latest
     command:
       - python train.py
+    inputs: datum://01701b05-ca13-2899-3545-a1be8fc9fd55
