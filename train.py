@@ -13,7 +13,8 @@ from joblib import dump, load
 
 
 def _load_data(data_url):
-    data = pd.read_csv(data_url, header=0)[:50]
+    data = pd.read_csv(data_url, header=0, encoding='utf8',
+                       engine='python')[:50]
 
     data_selected_columns = [
         # 'user_id', # Don't want to fit on basis of users
