@@ -51,7 +51,7 @@ def fit_and_test_split(clf, clf_name, split, split_index, data, expected):
 
     print(data_train.shape)
 
-    name_with_index = f'{clf_name}_{split_index}'
+    name_with_index = '%s_%s' % (clf_name, split_index)
 
     result = fit_and_test_model(
         clf, name_with_index, data_train, data_test, exp_train, exp_test)
@@ -60,7 +60,7 @@ def fit_and_test_split(clf, clf_name, split, split_index, data, expected):
 
 
 def upload_tsvm_classifier(clf, clf_name, output_path):
-    dump_name = os.path.join(output_path, f'{clf_name}.tsvm.sav')
+    dump_name = os.path.join(output_path, '%s.tsvm.sav' % clf_name)
 
     clf.save_to_file(dump_name)
 
@@ -98,7 +98,7 @@ def main():
         linear_scores.setdefault(C_key, []).append(res['score'])
 
     for key, val in linear_scores.values():
-        print(f'{key}: {val}')
+        print('%s: %s' % (key, val))
 
 
 if __name__ == "__main__":
