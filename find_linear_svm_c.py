@@ -22,13 +22,12 @@ def validate_classifier(estimator, data, expected):
 
 
 def timed_function(func, print_prefix=""):
-    print('*-*')
     start_time = time.time()
-    print(f"{print_prefix} starting fitting at {time.asctime(time.localtime(start_time))}")
+    print(f'{print_prefix} starting fitting at {time.asctime(time.localtime(start_time))}')
     result = func()
     end_time = time.time()
     time_delta = end_time - start_time
-    print(f"{print_prefix} Time spent fitting: {time_delta} seconds. Finished at {time.asctime(time.localtime(end_time))}")
+    print(f'{print_prefix} Time spent fitting: {time_delta} seconds. Finished at {time.asctime(time.localtime(end_time))}')
 
     return result
 
