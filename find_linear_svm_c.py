@@ -83,7 +83,7 @@ def main():
                              'filtered-data',
                              data_name)
 
-    X_train, X_val, y_train, y_val = load_data(data_path, )
+    X_train, X_val, y_train, y_val = load_data(data_path, 100)
 
     linear_scores = dict()
 
