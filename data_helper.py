@@ -47,5 +47,5 @@ def load_data(data_url):
 
 
 def upload_data(data, name, output_path):
-    p = os.path.join(output_path, f'{name}.joblib')
+    p = os.path.join(output_path, '%s.joblib' % name)
     joblib.dump(data, p)
