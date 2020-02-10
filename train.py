@@ -10,48 +10,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LinearRegression
 from pathlib import Path
 from joblib import dump, load
-
-
-def _load_data(data_url):
-    data = pd.read_csv(data_url, header=0)
-
-    data_selected_columns = [
-        # 'user_id', # Don't want to fit on basis of users
-        'topic_id',
-        # 'topic_name', # already in `topic_id`
-        'exercise_id',
-        # 'exercise_name', # already in `exercise_id`
-        # 'model_solution', # not relevant for now: would require some complicated stuff
-        'exercise_created_by_user',
-        'attempt_id',
-        # 'attempt_time', # not readable by models. Already in `week_number`, `period`, `period_week` and `attempt_number`
-        # 'attempt_code', # not relevant for now: would require some complicated stuff
-        # 'attempt_correct', # The value which is being inspected
-        'week_number',
-        'period',
-        'period_week',
-        'attempt_number',
-        'topic_1_count',
-        'topic_4_count',
-        'topic_2_count',
-        'topic_3_count',
-        'topic_5_count',
-        'topic_8_count',
-        'topic_9_count',
-        'topic_10_count',
-        'topic_11_count',
-        'topic_12_count',
-        'topic_13_count',
-        'topic_14_count'
-    ]
-
-    X = data[data_selected_columns]
-    y = data['attempt_correct']
-
-    X_train, X_validation, y_train, y_validation = train_test_split(
-        X, y, test_size=0.1)
-
-    return X_train, X_validation, y_train, y_validation
+from data_helper import load_data, upload_data
 
 
 def _perform_cross_validation_and_save(clf, X, y, name, output_path):
@@ -64,13 +23,14 @@ def _perform_cross_validation_and_save(clf, X, y, name, output_path):
     print(f'--- cross validation for {name} ended   ---')
 
     for i, estimator in enumerate(result['estimator']):
-        _upload_classifier(estimator, f'{output_path}/{name}_{i}')
+        upload_data(estimator, f'{name}_{i}', output_path)
 
     return result['estimator']
 
 
-def _upload_classifier(clf, clf_name):
-    p = Path(f'{clf_name}.joblib')
+def _upload_classifier(clf, clf_name, output_path):
+    # p = Path(f'{clf_name}.joblib')
+    p = os.path.join(output_path, f'{clf_name}.joblib')
     dump(clf, p)
 
 
@@ -99,20 +59,20 @@ def main():
                              'filtered-data',
                              data_name)
 
-    X_train, X_val, y_train, y_val = _load_data(data_path)
+    X_train, X_val, y_train, y_val = load_data(data_path)
 
     classifiers = {
-        "linear SVM": svm.SVC(kernel='linear', gamma='scale'),
+        # "linear SVM": svm.SVC(kernel='linear', gamma='scale'),
         "polynomialSVM": svm.SVC(kernel='poly', gamma='scale'),
-        "radialSVM": svm.SVC(kernel='rbf', gamma='scale'),
-        "sigmoidSVM": svm.SVC(kernel='sigmoid'),
-        "GaussianNB": GaussianNB(),
-        "MultinomialNB": MultinomialNB(),
-        "ComplementNB": ComplementNB(),
-        "BernoulliNB": BernoulliNB(),
-        "LDA": LinearDiscriminantAnalysis(),
-        "Randomforest": RandomForestClassifier(n_estimators=100, criterion="gini", bootstrap=True, oob_score=True),
-        "Linearregression": LinearRegression(normalize=True)
+        # "radialSVM": svm.SVC(kernel='rbf', gamma='scale'),
+        # "sigmoidSVM": svm.SVC(kernel='sigmoid'),
+        # "GaussianNB": GaussianNB(),
+        # "MultinomialNB": MultinomialNB(),
+        # "ComplementNB": ComplementNB(),
+        # "BernoulliNB": BernoulliNB(),
+        # "LDA": LinearDiscriminantAnalysis(),
+        # "Randomforest": RandomForestClassifier(n_estimators=100, criterion="gini", bootstrap=True, oob_score=True),
+        # "Linearregression": LinearRegression(normalize=True)
     }
 
     clf_estimators = dict(map(

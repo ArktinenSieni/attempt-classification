@@ -1,8 +1,17 @@
+# - step:
+#     name: attempt-classification
+#     image: arktinensieni/scikit-learn-tsvm:1.0.0
+#     command:
+#       - python train.py
+#     inputs:
+#       - name: filtered-data
+#         default: datum://01701b05-ca13-2899-3545-a1be8fc9fd55
+
 - step:
-    name: attempt-classification
-    image: huanjason/scikit-learn:latest
-    command:
-      - python train.py
-    inputs:
-      - name: filtered-data
-        default: datum://01701b05-ca13-2899-3545-a1be8fc9fd55
+  name: find-linear-svm-c
+  image: arktinensieni/scikit-learn-tsvm:1.0.0
+  command:
+    - python find_linear_svm_c.py
+  inputs:
+    - name: filtered-data
+      default: datum://01701b05-ca13-2899-3545-a1be8fc9fd55
