@@ -1,6 +1,6 @@
 - step:
     name: find-linear-svm-c
-    image: arktinensieni/scikit-learn-tsvm:1.0.0
+    image: arktinensieni/scikit-learn-tsvm:2.0.0
     command:
       - python3 find_linear_svm_c.py
     inputs:

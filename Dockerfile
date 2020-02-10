@@ -7,7 +7,6 @@ ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 # Install lower level dependencies
 RUN apt-get update --fix-missing && \
     apt-get install -y curl python3 python3-pip && \
-    apt-get install -y python3-pandas && \
     update-alternatives --install /usr/bin/python python /usr/bin/python3 10 && \
     update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10 && \
     apt-get clean && \
@@ -15,5 +14,5 @@ RUN apt-get update --fix-missing && \
     rm -rf /var/lib/apt/lists/*
 
 # pip requirements
-RUN pip install --no-cache-dir scikit-learn
-RUN pip install --no-cache-dir thundersvm
+RUN pip3 install --no-cache-dir --upgrade pip
+RUN pip3 install --no-cache-dir scikit-learn thundersvm pandas
