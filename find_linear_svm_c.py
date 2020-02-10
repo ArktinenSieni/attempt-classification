@@ -82,7 +82,7 @@ def main():
                              'filtered-data',
                              data_name)
 
-    data_size = 1000
+    data_size = 100
 
     X_train, X_val, y_train, y_val = load_data(data_path)
 
