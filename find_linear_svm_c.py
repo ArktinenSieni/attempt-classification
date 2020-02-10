@@ -82,19 +82,21 @@ def main():
                              'filtered-data',
                              data_name)
 
+    data_size = 1000
+
     X_train, X_val, y_train, y_val = load_data(data_path)
 
     linear_scores = dict()
 
     split_amount = 5  # 5 is default
-    kf_splits = list(KFold(n_splits=split_amount).split(X_train))
+    kf_splits = list(KFold(n_splits=split_amount).split(X_train[:data_size]))
 
     C_key = 1
 
     for i in range(0, len(kf_splits)):
         clf = SVC(kernel='linear', C=1)
         res = train_classifier_with_split(
-            kf_splits, i, clf, X_train[:10], y_train[:10], 'linearSVM', upload_tsvm_classifier, OUTPUTS_DIR)
+            kf_splits, i, clf, X_train[:data_size], y_train[:data_size], 'linearSVM', upload_tsvm_classifier, OUTPUTS_DIR)
         linear_scores.setdefault(C_key, []).append(res['score'])
 
     for key, val in linear_scores.values():
