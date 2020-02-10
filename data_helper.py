@@ -4,8 +4,10 @@ import joblib
 from sklearn.model_selection import train_test_split
 
 
-def load_data(data_url):
+def load_data(data_url, data_size=-1):
     data = pd.read_csv(data_url, header=0)
+    if data_size != -1:
+        data = data.copy()[:data_size]
 
     data_selected_columns = [
         # 'user_id', # Don't want to fit on basis of users

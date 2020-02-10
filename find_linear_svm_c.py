@@ -5,6 +5,7 @@ from data_helper import load_data
 from sklearn.model_selection import KFold
 from sklearn.metrics import accuracy_score
 from thundersvm import SVC
+# from sklearn.svm import SVC
 
 
 def validate_classifier(estimator, data, expected):
@@ -82,21 +83,19 @@ def main():
                              'filtered-data',
                              data_name)
 
-    data_size = 100
-
-    X_train, X_val, y_train, y_val = load_data(data_path)
+    X_train, X_val, y_train, y_val = load_data(data_path, )
 
     linear_scores = dict()
 
     split_amount = 5  # 5 is default
-    kf_splits = list(KFold(n_splits=split_amount).split(X_train[:data_size]))
+    kf_splits = list(KFold(n_splits=split_amount).split(X_train))
 
     C_key = 1
 
     for i in range(0, len(kf_splits)):
         clf = SVC(kernel='linear', C=1)
         res = train_classifier_with_split(
-            kf_splits, i, clf, X_train[:data_size], y_train[:data_size], 'linearSVM', upload_tsvm_classifier, OUTPUTS_DIR)
+            kf_splits, i, clf, X_train, y_train, 'linearSVM', upload_tsvm_classifier, OUTPUTS_DIR)
         linear_scores.setdefault(C_key, []).append(res['score'])
 
     for key, val in linear_scores.values():
